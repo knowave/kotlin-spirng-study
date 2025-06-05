@@ -2,7 +2,7 @@ package com.example.board.post.dto
 
 import jakarta.validation.constraints.NotBlank
 
-data class CreatePostDto(
+data class PostRequest(
     @field:NotBlank
     val title: String,
 
