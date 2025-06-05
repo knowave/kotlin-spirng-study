@@ -19,6 +19,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.mysql:mysql-connector-j:8.4.0")
     runtimeOnly("com.h2database:h2")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
