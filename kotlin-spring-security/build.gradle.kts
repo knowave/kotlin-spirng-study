@@ -1,9 +1,11 @@
 plugins {
-	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.spring") version "1.9.25"
+	val kotlinVersion = "1.9.25"
+
 	id("org.springframework.boot") version "3.5.0"
 	id("io.spring.dependency-management") version "1.1.7"
-	kotlin("plugin.jpa") version "1.9.25"
+	kotlin("plugin.jpa") version kotlinVersion
+	kotlin("jvm") version kotlinVersion
+	kotlin("plugin.spring") version kotlinVersion
 }
 
 group = "com.example"
@@ -41,6 +43,10 @@ allOpen {
 	annotation("jakarta.persistence.Entity")
 	annotation("jakarta.persistence.MappedSuperclass")
 	annotation("jakarta.persistence.Embeddable")
+}
+
+noArg {
+	annotation("jakarta.persistence.Entity")
 }
 
 tasks.withType<Test> {
