@@ -27,6 +27,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+	implementation("org.springframework.boot:spring-boot-starter-validation:3.5.0")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
