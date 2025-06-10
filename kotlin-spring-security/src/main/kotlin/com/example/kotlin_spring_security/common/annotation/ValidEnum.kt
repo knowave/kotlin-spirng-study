@@ -17,7 +17,7 @@ annotation class ValidEnum(
     val enumClass: KClass<out Enum<*>>
 )
 
-class ValidEnumValidator: ConstraintValidator<ValidEnum, Any> {
+class ValidEnumValidator : ConstraintValidator<ValidEnum, Any> {
     private lateinit var enumValues: Array<out Enum<*>>
 
     override fun initialize(annotaion: ValidEnum) {
