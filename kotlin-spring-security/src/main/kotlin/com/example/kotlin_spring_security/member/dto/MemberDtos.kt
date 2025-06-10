@@ -2,6 +2,7 @@ package com.example.kotlin_spring_security.member.dto
 
 import com.example.kotlin_spring_security.common.annotation.ValidEnum
 import com.example.kotlin_spring_security.common.status.Gender
+import com.example.kotlin_spring_security.member.entity.Member
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
@@ -61,4 +62,7 @@ data class MemberDtoRequest(
 
      private fun String.toLocalDate(): LocalDate =
          LocalDate.parse(this, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+    fun toEntity(): Member =
+        Member(id, loginId, email, password, name, birthDate, gender)
 }

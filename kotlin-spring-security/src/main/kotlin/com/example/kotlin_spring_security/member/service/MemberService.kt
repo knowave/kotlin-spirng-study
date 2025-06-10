@@ -1,5 +1,6 @@
 package com.example.kotlin_spring_security.member
 
+import com.example.kotlin_spring_security.common.exception.InvalidInputException
 import com.example.kotlin_spring_security.member.dto.MemberDtoRequest
 import com.example.kotlin_spring_security.member.entity.Member
 import com.example.kotlin_spring_security.member.repository.MemberRepository
@@ -19,19 +20,10 @@ class MemberService(
         var member: Member? = memberRepository.findByLoginId(memberDtoRequest.loginId)
 
         if (member != null) {
-            return "이미 등록된 ID 입니다."
+            throw InvalidInputException("loginId", "이미 등록된 ID 입니다.")
         }
 
-        member = Member(
-            null,
-            memberDtoRequest.loginId,
-            memberDtoRequest.email,
-            memberDtoRequest.password,
-            memberDtoRequest.name,
-            memberDtoRequest.birthDate,
-            memberDtoRequest.gender,
-        )
-
+        member = memberDtoRequest.toEntity()
         memberRepository.save(member)
 
         return "회원가입이 완료되었습니다."
