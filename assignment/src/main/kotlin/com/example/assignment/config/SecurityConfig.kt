@@ -13,3 +13,4 @@ class SecurityConfig {
         return BCryptPasswordEncoder()
     }
 }
+

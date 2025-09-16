@@ -33,15 +33,28 @@ class PostService(
 
     fun updatePost(id: Long, dto: PostRequest): Boolean {
         val post = postRepository.findById(id).orElseThrow { RuntimeException("Not Found Post") }
+        if (!validatePassword(dto.password, post.password)) {
+            throw RuntimeException("Invalid Password")
+        }
+
         post.title = dto.title
         post.content = dto.content
-        post.password = passwordEncoder.encode(dto.password)
         postRepository.save(post)
         return true
     }
     
-    fun deletePost(id: Long): Boolean {
+    fun deletePost(id: Long, password: String): Boolean {
+        val post = postRepository.findById(id).orElseThrow { RuntimeException("Not Found Post") }
+        
+        if (!validatePassword(password, post.password)) {
+            throw RuntimeException("Invalid Password")
+        }
+
         postRepository.deleteById(id)
         return true
+    }
+
+    private fun validatePassword(password: String, postPassword: String): Boolean {
+        return passwordEncoder.matches(password, postPassword)
     }
 }
