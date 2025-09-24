@@ -27,13 +27,19 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("io.github.cdimascio:dotenv-kotlin:6.5.1")
+	implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+	implementation("org.springframework.boot:spring-boot-starter-validation:3.5.0")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.5.0")
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	runtimeOnly("com.mysql:mysql-connector-j")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

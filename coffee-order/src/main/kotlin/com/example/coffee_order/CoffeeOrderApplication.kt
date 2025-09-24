@@ -1,11 +1,11 @@
-package com.example.kotlin_spring_boiler_code
+package com.example.coffee_order
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import io.github.cdimascio.dotenv.dotenv
 
 @SpringBootApplication
-class KotlinSpringBoilerCodeApplication
+class CoffeeOrderApplication
 
 fun main(args: Array<String>) {
 	val dotenv = dotenv()
@@ -14,5 +14,5 @@ fun main(args: Array<String>) {
 		System.setProperty(entry.key, entry.value)
 	}
 
-	runApplication<KotlinSpringBoilerCodeApplication>(*args)
+	runApplication<CoffeeOrderApplication>(*args)
 }
