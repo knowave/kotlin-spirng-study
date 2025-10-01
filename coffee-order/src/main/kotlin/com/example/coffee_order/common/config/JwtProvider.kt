@@ -9,8 +9,8 @@ import java.util.*
 
 @Component
 class JwtProvider(
-    @Value("\${app.jwt.secret}") private val secret: String,
-    @Value("\${app.jwt.expireMillis:3600000}") private val expireMillis: Long
+    @Value("\${jwt.secret}") private val secret: String,
+    @Value("\${jwt.expireMillis:3600000}") private val expireMillis: Long
 ) {
     private val key = Keys.hmacShaKeyFor(secret.toByteArray())
 
