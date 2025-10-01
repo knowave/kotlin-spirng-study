@@ -17,3 +17,7 @@ data class LoginRequestDto(
     @field:Email val email: String,
     @field:NotBlank val password: String
 )
+
+data class TokenResponse(
+    val token: String
+)
