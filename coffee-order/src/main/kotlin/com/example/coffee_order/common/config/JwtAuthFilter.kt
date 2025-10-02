@@ -5,11 +5,14 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.OncePerRequestFilter
 
 class JwtAuthFilter(
     private val jwtProvider: JwtProvider
-): OncePerRequestFilter() {
+) : OncePerRequestFilter() {
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -19,11 +22,10 @@ class JwtAuthFilter(
 
         if (auth?.startsWith("Bearer ") == true) {
             val token = auth.removePrefix("Bearer ").trim()
-
             try {
                 val claims = jwtProvider.parse(token).payload
                 val userId = claims.subject.toLong()
-                val email = claims["email"] as String
+                val email = claims["email"]?.toString() ?: ""
 
                 val principal = UserPrincipal(userId, email)
                 val authToken = UsernamePasswordAuthenticationToken(
@@ -31,8 +33,10 @@ class JwtAuthFilter(
                     null,
                     emptyList()
                 )
+                authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
+                SecurityContextHolder.getContext().authentication = authToken
             } catch (_: Exception) {
-                // 토큰 검증 실패 → 무시하고 다음 필터로
+                SecurityContextHolder.clearContext()
             }
         }
 

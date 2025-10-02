@@ -5,10 +5,11 @@ import com.example.coffee_order.domains.auth.dto.LoginRequestDto
 import com.example.coffee_order.domains.auth.dto.RegisterRequestDto
 import com.example.coffee_order.domains.auth.dto.TokenResponse
 import com.example.coffee_order.domains.user.UserRepository
-import com.example.coffee_order.domains.user.entities.User
+import com.example.coffee_order.domains.user.entities.User as UserEntity
 import org.apache.coyote.BadRequestException
-import org.springframework.data.crossstore.ChangeSetPersister
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.web.server.ResponseStatusException
+import org.springframework.http.HttpStatus
 
 class AuthService(
     private val userRepository: UserRepository,
@@ -22,24 +23,26 @@ class AuthService(
         }
 
         val hashedPassword = passwordEncoder.encode(registerRequestDto.password)
-        val user = User(
+        val user = UserEntity(
             email = registerRequestDto.email,
             username = registerRequestDto.username,
             password = hashedPassword,
             refreshToken = "null"
         )
-        userRepository.save<User>(user)
+        userRepository.save<UserEntity>(user)
     }
 
     // 로그인
     fun login(loginRequestDto: LoginRequestDto): TokenResponse {
         val user = userRepository.findByEmail(loginRequestDto.email)
-            ?: throw ChangeSetPersister.NotFoundException("존재하지 않는 user.")
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
 
         if (!passwordEncoder.matches(loginRequestDto.password, user.password)) {
-            throw BadRequestException("이메일 또는 비밀번호가 올바르지 않습니다.")
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid credentials")
         }
 
-        return TokenResponse(jwtProvider.generateToken(user.id, user.email))
+        val userId: Long = user.id ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User id is null")
+        
+        return TokenResponse(jwtProvider.generateToken(userId, user.email))
     }
 }

@@ -5,16 +5,16 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
-data class User(
+open class User(
     @Column(name = "username", unique = true)
-    var username: String,
+    open var username: String,
 
     @Column(name = "email", unique = true)
-    var email: String,
+    open var email: String,
 
-    @Column(name = "password",  length = 200)
-    var password: String,
+    @Column(name = "password", length = 200)
+    open var password: String,
 
     @Column(name = "refresh_token", length = 255)
-    var refreshToken: String
+    open var refreshToken: String
 ) : BaseEntity()
