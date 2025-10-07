@@ -21,3 +21,9 @@ data class LoginRequestDto(
 data class TokenResponse(
     val token: String
 )
+
+data class MyInfoResponseDto(
+    val id: Long,
+    val email: String,
+    val username: String
+)
