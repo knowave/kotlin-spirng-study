@@ -50,6 +50,6 @@ class AuthService(
     // 내 정보 조회
     fun getMyInfo(userId: Long): MyInfoResponseDto {
         val user = userRepository.findById(userId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
-        return MyInfoResponseDto(user!!.id, user.email, user.username)
+        return MyInfoResponseDto(user.id ?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User id is null"), user.email, user.username)
     }
 }
