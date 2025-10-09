@@ -19,6 +19,14 @@ class OrderService(
     private val menuRepository: MenuRepository,
     private val orderRepository: OrderRepository
 ) {
+
+    private fun validateOrder(orderId: Long): Order {
+        val order = orderRepository.findById(orderId)
+            .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found") }
+
+        return order
+    }
+
     private fun validateUser(userId: Long): User {
         val user = userRepository.findById(userId)
             .orElseThrow{ ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
@@ -61,5 +69,19 @@ class OrderService(
             price = menu.price,
             status = order.status
         )
+    }
+
+    @Transactional
+    fun cancelOrder(userId: Long, orderId: Long) {
+        val order = validateOrder(orderId)
+        order.user.id!! == userId || throw ResponseStatusException(HttpStatus.FORBIDDEN, "User is not authorized to cancel this order")
+
+        order.status = OrderStatus.CANCELLED
+        order.user.point += order.price
+        order.menu.orderCount -= 1
+
+        orderRepository.save(order)
+        menuRepository.save(order.menu)
+        userRepository.save(order.user)
     }
 }
