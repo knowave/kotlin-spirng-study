@@ -16,5 +16,8 @@ open class User(
     open var password: String,
 
     @Column(name = "refresh_token", length = 255)
-    open var refreshToken: String
+    open var refreshToken: String,
+
+    @Column(name = "point", nullable = false)
+    open var point: Long = 0L
 ) : BaseEntity()
