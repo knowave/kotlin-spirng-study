@@ -23,7 +23,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
-                it.requestMatchers("/api/member/signup", "/api/memer/sign-in").anonymous()
+                it.requestMatchers("/api/auth/register", "/api/auth/login").anonymous()
                     .anyRequest().permitAll()
             }
             .addFilterBefore(JwtAuthFilter(jwtProvider), UsernamePasswordAuthenticationFilter::class.java)

@@ -10,4 +10,8 @@ class MenuService(
     fun getManyMenu(): List<MenuResponse> =
         menuRepository.findAllByIsActiveTrue()
             .map { MenuResponse(it.id!!, it.name, it.price, it.orderCount) }
+
+    fun getTop10Menu(): List<MenuResponse> =
+        menuRepository.findTop10ByOrderByOrderCountDesc()
+            .map { MenuResponse(it.id!!, it.name, it.price, it.orderCount) }
 }

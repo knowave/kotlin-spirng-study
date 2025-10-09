@@ -13,9 +13,15 @@ class MenuController(
     private val menuService: MenuService
 ) {
 
-    @GetMapping
+    @GetMapping()
     fun getManyMenu(): ResponseEntity<List<MenuResponse>> {
         val menus = menuService.getManyMenu()
+        return ResponseEntity.status(HttpStatus.OK).body(menus)
+    }
+
+    @GetMapping("/top-ten")
+    fun getTop10Menu(): ResponseEntity<List<MenuResponse>> {
+        val menus = menuService.getTop10Menu()
         return ResponseEntity.status(HttpStatus.OK).body(menus)
     }
 }
