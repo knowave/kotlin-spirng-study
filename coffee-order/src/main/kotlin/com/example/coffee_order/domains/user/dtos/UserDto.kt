@@ -10,5 +10,6 @@ data class UserPointResponse(
 
 data class UserPointRequestDto(
     @field:NotNull
+    @field:Positive(message = "충전 금액은 0보다 커야합니다.")
     val point: Long
 )
