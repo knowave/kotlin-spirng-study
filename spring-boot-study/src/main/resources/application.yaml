@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: spring-boot-study
+
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
