@@ -3,6 +3,8 @@ package com.knowave.spring_boot_study.domains.order.entity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
@@ -29,8 +31,9 @@ class Order(
     var id: Long? = null
         protected set
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    var status: String = OrderStatus.CREATED.name
+    var status: OrderStatus = OrderStatus.CREATED
         protected set
 
     @Column(nullable = false)
@@ -49,8 +52,8 @@ class Order(
     }
 
     fun cancel() {
-        check(status == OrderStatus.CREATED.name) { "이미 처리된 주문은 취소할 수 없습니다" }
-        status = OrderStatus.CANCELD.name
+        check(status == OrderStatus.CREATED) { "이미 처리된 주문은 취소할 수 없습니다" }
+        status = OrderStatus.CANCELD
     }
 
     companion object {
